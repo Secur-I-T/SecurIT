@@ -1,12 +1,22 @@
-void setup() {  // initialize digital pin 13 as an output.
-   pinMode(2, OUTPUT);
-}
+#include <wiringPi.h>
+#include <stdio.h>
 
-// the loop function runs over and over again forever
+#define LedPin 0
 
-void loop() {
-   digitalWrite(2, HIGH); // turn the LED on (HIGH is the voltage level)
-   delay(1000); // wait for a second
-   digitalWrite(2, LOW); // turn the LED off by making the voltage LOW
-   delay(1000); // wait for a second
+int main(void) {
+        if(wiringPiSetup() == -1) { //when initialize wiringPi failed, print message to screen
+                printf("setup wiringPi failed !\n");
+                return -1;
+        }
+
+        pinMode(LedPin, OUTPUT);
+        while(1) {
+                digitalWrite(LedPin, LOW);   //led on
+                printf("led on\n");
+                delay(1000);			     // wait 1 sec
+                digitalWrite(LedPin, HIGH);  //led off
+                printf("led off\n");
+                delay(1000);                 // wait 1 sec
+        }
+        return 0;
 }
