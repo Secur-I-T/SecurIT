@@ -8,7 +8,7 @@
 * Video at https://www.youtube.com/watch?v=LgtcUxe8fmA
 */
 
-#include"pitches.h"
+#include"../include/pitches.h"
 
 // notes in the song 'Mukkathe Penne'
 int melody[] = {
