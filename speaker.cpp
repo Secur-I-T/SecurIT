@@ -1,24 +1,12 @@
-#include <LiquidCrystal.h>
-LiquidCrystal lcd(7);  //Pins où on va connecter l'écran (RS, E, D4, D5, D6, D7)
-
-void setup() {
-  lcd.begin(16, 2);   //on initialise l'écran
+void setup() {  // initialize digital pin 13 as an output.
+   pinMode(2, OUTPUT);
 }
 
-void loop() {
-  //Message 1
-  lcd.setCursor(0, 0);          //Place le pointeur sur la colonne 0, ligne 0
-  lcd.write("essai 1:");      //écrit le message 
-  lcd.setCursor(0, 1);         //Place le pointeur sur la colonne 0, ligne 1
-  lcd.write("bonjour!");    //écrit le message
-  delay(3500);                 //attente 3.5 secondes
-  lcd.clear();                 //efface le message affiché
+// the loop function runs over and over again forever
 
-  //Message 2
-  lcd.setCursor(3, 0);          //Place le pointeur sur la colonne 3, ligne 0
-  lcd.write("essai 2:");       //écrit le message
-  lcd.setCursor(2, 1);          //Place le pointeur sur la colonne 2, ligne 1
-  lcd.write("Arduino et LCD");   //écrit le message
-  delay(3500);                  //attente 3.5 secondes
-  lcd.clear();                  //efface le message affiché
+void loop() {
+   digitalWrite(2, HIGH); // turn the LED on (HIGH is the voltage level)
+   delay(1000); // wait for a second
+   digitalWrite(2, LOW); // turn the LED off by making the voltage LOW
+   delay(1000); // wait for a second
 }
