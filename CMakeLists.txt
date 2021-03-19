@@ -11,7 +11,7 @@ message(STATUS "OpenCV_INCLUDE_DIRS = ${OpenCV_INCLUDE_DIRS}")
 message(STATUS "OpenCV_LIBS = ${OpenCV_LIBS}")
 
 include_directories(include)
-file(GLOB SOURCES "speaker.cpp")
+file(GLOB SOURCES "/*include.cpp")
 
 link_directories(/usr/local/lib)
 add_executable(ProjetIA ${SOURCES})
