@@ -14,7 +14,7 @@
  *     without specific prior written permission.
  *
  *   See <http://www.opensource.org/licenses/bsd-license>
- */
+
 #include "opencv2/core.hpp"
 #include "opencv2/face.hpp"
 #include "opencv2/highgui.hpp"
