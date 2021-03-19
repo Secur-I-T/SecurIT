@@ -1,4 +1,4 @@
-#include <wiringPi.h>
+/*#include <wiringPi.h>
 #include <stdio.h>
 
 #define LedPin 0
@@ -19,4 +19,4 @@ int main(void) {
                 delay(1000);                 // wait 1 sec
         }
         return 0;
-}
+}*/
