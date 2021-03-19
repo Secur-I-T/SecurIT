@@ -1,22 +1,31 @@
-#include <wiringPi.h>
-#include <stdio.h>
-
-#define LedPin 0
-
-int main(void) {
-        if(wiringPiSetup() == -1) { //when initialize wiringPi failed, print message to screen
-                printf("setup wiringPi failed !\n");
-                return -1;
-        }
-
-        pinMode(LedPin, OUTPUT);
-        while(1) {
-                digitalWrite(LedPin, LOW);   //led on
-                printf("led on\n");
-                delay(1000);			     // wait 1 sec
-                digitalWrite(LedPin, HIGH);  //led off
-                printf("led off\n");
-                delay(1000);                 // wait 1 sec
-        }
-        return 0;
+#include <ChainableLED.h>
+ 
+#define NUM_LEDS  5
+ 
+ChainableLED leds(7, 8, NUM_LEDS);
+ 
+void setup()
+{
+  leds.init();
+}
+ 
+float hue = 0.0;
+boolean up = true;
+ 
+void loop()
+{
+  for (byte i=0; i<NUM_LEDS; i++)
+    leds.setColorHSB(i, hue, 1.0, 0.5);
+ 
+  delay(50);
+ 
+  if (up)
+    hue+= 0.025;
+  else
+    hue-= 0.025;
+ 
+  if (hue>=1.0 && up)
+    up = false;
+  else if (hue<=0.0 && !up)
+    up = true;
 }
