@@ -1,5 +1,5 @@
-#include <wiringPi.h>
-#include <stdio.h>
+//#include <wiringPi.h>
+/*#include <stdio.h>
 
 #define LedPin 0
 
@@ -20,3 +20,4 @@ int main(void) {
         }
         return 0;
 }
+*/
