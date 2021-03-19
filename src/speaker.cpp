@@ -1,4 +1,4 @@
-#include <ChainableLED.h>
+/*#include <ChainableLED.h>
  
 #define NUM_LEDS  5
  
@@ -28,4 +28,4 @@ void loop()
     up = false;
   else if (hue<=0.0 && !up)
     up = true;
-}
+}*/
