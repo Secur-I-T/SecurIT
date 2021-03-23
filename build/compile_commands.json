@@ -1,0 +1,17 @@
+[
+{
+  "directory": "/home/pi/SecurIT/build",
+  "command": "/bin/g++-8   -I/home/pi/SecurIT/include -isystem /opt/opencv-4.1.0/include/opencv4  -g   -o CMakeFiles/ProjetIA.dir/src/main.cpp.o -c /home/pi/SecurIT/src/main.cpp",
+  "file": "/home/pi/SecurIT/src/main.cpp"
+},
+{
+  "directory": "/home/pi/SecurIT/build",
+  "command": "/bin/g++-8   -I/home/pi/SecurIT/include -isystem /opt/opencv-4.1.0/include/opencv4  -g   -o CMakeFiles/ProjetIA.dir/src/speaker.cpp.o -c /home/pi/SecurIT/src/speaker.cpp",
+  "file": "/home/pi/SecurIT/src/speaker.cpp"
+},
+{
+  "directory": "/home/pi/SecurIT/build",
+  "command": "/bin/g++-8   -I/home/pi/SecurIT/include -isystem /opt/opencv-4.1.0/include/opencv4  -g   -o CMakeFiles/ProjetIA.dir/src/test.cpp.o -c /home/pi/SecurIT/src/test.cpp",
+  "file": "/home/pi/SecurIT/src/test.cpp"
+}
+]
