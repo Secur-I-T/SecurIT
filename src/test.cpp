@@ -1,4 +1,4 @@
-
+/*
  * Copyright (c) 2011. Philipp Wagner <bytefish[at]gmx[dot]de>.
  * Released to public domain under terms of the BSD Simplified license.
  *
@@ -186,3 +186,4 @@ int main(int argc, const char *argv[]) {
     }
     return 0;
 }
+*/
