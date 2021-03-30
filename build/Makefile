@@ -547,33 +547,6 @@ src/main.cpp.s:
 	$(MAKE) -f CMakeFiles/ProjetIA.dir/build.make CMakeFiles/ProjetIA.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
-src/speaker.o: src/speaker.cpp.o
-
-.PHONY : src/speaker.o
-
-# target to build an object file
-src/speaker.cpp.o:
-	$(MAKE) -f CMakeFiles/ProjetIA.dir/build.make CMakeFiles/ProjetIA.dir/src/speaker.cpp.o
-.PHONY : src/speaker.cpp.o
-
-src/speaker.i: src/speaker.cpp.i
-
-.PHONY : src/speaker.i
-
-# target to preprocess a source file
-src/speaker.cpp.i:
-	$(MAKE) -f CMakeFiles/ProjetIA.dir/build.make CMakeFiles/ProjetIA.dir/src/speaker.cpp.i
-.PHONY : src/speaker.cpp.i
-
-src/speaker.s: src/speaker.cpp.s
-
-.PHONY : src/speaker.s
-
-# target to generate assembly for a file
-src/speaker.cpp.s:
-	$(MAKE) -f CMakeFiles/ProjetIA.dir/build.make CMakeFiles/ProjetIA.dir/src/speaker.cpp.s
-.PHONY : src/speaker.cpp.s
-
 src/test.o: src/test.cpp.o
 
 .PHONY : src/test.o
@@ -644,9 +617,6 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
-	@echo "... src/speaker.o"
-	@echo "... src/speaker.i"
-	@echo "... src/speaker.s"
 	@echo "... src/test.o"
 	@echo "... src/test.i"
 	@echo "... src/test.s"

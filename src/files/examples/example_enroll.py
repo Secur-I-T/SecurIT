@@ -9,17 +9,27 @@ All rights reserved.
 """
 
 import time
+import pickle
+import os.path
+from os import path
+from grove_rgb_lcd import *
 from pyfingerprint.pyfingerprint import PyFingerprint
 from pyfingerprint.pyfingerprint import FINGERPRINT_CHARBUFFER1
 from pyfingerprint.pyfingerprint import FINGERPRINT_CHARBUFFER2
 
+global noms
+if path.exists('noms.pickle') :
+    with open('noms.pickle','rb') as file :
+        noms = pickle.load(file)
+else : 
+    noms =  {}
 
 ## Enrolls new finger
 ##
 
 ## Tries to initialize the sensor
 try:
-    f = PyFingerprint('/dev/ttyAMA0', 57600, 0xFFFFFFFF, 0x00000000)
+    f = PyFingerprint('/dev/ttyUSB0', 57600, 0xFFFFFFFF, 0x00000000)
 
     if ( f.verifyPassword() == False ):
         raise ValueError('The given fingerprint sensor password is wrong!')
@@ -35,6 +45,12 @@ print('Currently used templates: ' + str(f.getTemplateCount()) +'/'+ str(f.getSt
 ## Tries to enroll new finger
 try:
     print('Waiting for finger...')
+    setText("Waiting for finger...")
+    setRGB(0,128,64)
+
+    for c in range(0,100):
+        setRGB(0,0,255-c)
+        time.sleep(0.04)
 
     ## Wait that finger is read
     while ( f.readImage() == False ):
@@ -52,9 +68,22 @@ try:
         exit(0)
 
     print('Remove finger...')
+    setText("Remove finger...")
+    setRGB(0,128,64)
+
+    for c in range(0,100):
+        setRGB(0,0,255-c)
+        time.sleep(0.04)
     time.sleep(2)
 
     print('Waiting for same finger again...')
+    setText("Waiting for finger...")
+    setRGB(0,128,64)
+
+    for c in range(0,100):
+        setRGB(0,0,255-c)
+        time.sleep(0.04)
+    
 
     ## Wait that finger is read again
     while ( f.readImage() == False ):
@@ -73,7 +102,21 @@ try:
     ## Saves template at new position number
     positionNumber = f.storeTemplate()
     print('Finger enrolled successfully!')
+    setText("Finger enrolled successfully!")
+    setRGB(0,128,64)
+        
+
+    for c in range(0,100):
+        setRGB(0,255-c,0)
+        time.sleep(0.04)
     print('New template position #' + str(positionNumber))
+
+    new_name = input('Please enter the name of this fingerprint: ')
+    noms[positionNumber]=new_name
+
+    print(noms)
+    with open('noms.pickle','wb') as file :
+        pickle.dump(noms,file,protocol=pickle.HIGHEST_PROTOCOL)
 
 except Exception as e:
     print('Operation failed!')

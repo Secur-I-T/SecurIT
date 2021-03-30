@@ -23,8 +23,8 @@ int main( int argc, const char** argv )
     /* -------------------------- PATH TO CHANGE ------------------------------------------------------------ */
     CommandLineParser parser(argc, argv,
                              "{help h||}"
-                             "{face_cascade|/Users/emma/Documents/HEI/HEI4/ProjetS8/opencv-4.5.1/data/haarcascades/haarcascade_frontalface_alt.xml|Path to face cascade.}"
-                             "{eyes_cascade|/Users/emma/Documents/HEI/HEI4/ProjetS8/opencv-4.5.1/data/haarcascades/haarcascade_eye_tree_eyeglasses.xml|Path to eyes cascade.}"
+                             "{face_cascade|/home/pi/opencv/data/haarcascades/haarcascade_frontalface_alt.xml|Path to face cascade.}"
+                             "{eyes_cascade|/home/pi/opencv/data/haarcascades/haarcascade_eye_tree_eyeglasses.xml|Path to eyes cascade.}"
                              "{camera|0|Camera device number.}");
     parser.about( "\nThis program demonstrates using the cv::CascadeClassifier class to detect objects (Face + eyes) in a video stream.\n"
                   "You can use Haar or LBP features.\n\n" );
@@ -87,7 +87,7 @@ void detectAndDisplay( Mat frame, int argc, const char** argv)
                
         resize(frame_gray, frame1, Size(240,320));
         /* -------------------------- PATH TO CHANGE ------------------------------------------------------------ */
-        imwrite("/Users/emma/Documents/HEI/HEI4/ProjetS8/SecurIT/database/unknown/myImage.pgm", frame1);
+        imwrite("/home/pi/SecurIT/database/unknown/latestImage.pgm", frame1);
         predictions(argc, argv);
         
     }

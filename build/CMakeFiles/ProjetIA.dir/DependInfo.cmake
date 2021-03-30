@@ -5,7 +5,6 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/pi/SecurIT/src/main.cpp" "/home/pi/SecurIT/build/CMakeFiles/ProjetIA.dir/src/main.cpp.o"
-  "/home/pi/SecurIT/src/speaker.cpp" "/home/pi/SecurIT/build/CMakeFiles/ProjetIA.dir/src/speaker.cpp.o"
   "/home/pi/SecurIT/src/test.cpp" "/home/pi/SecurIT/build/CMakeFiles/ProjetIA.dir/src/test.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")

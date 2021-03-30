@@ -1,6 +1,5 @@
 file(REMOVE_RECURSE
   "CMakeFiles/ProjetIA.dir/src/main.cpp.o"
-  "CMakeFiles/ProjetIA.dir/src/speaker.cpp.o"
   "CMakeFiles/ProjetIA.dir/src/test.cpp.o"
   "ProjetIA"
   "ProjetIA.pdb"
