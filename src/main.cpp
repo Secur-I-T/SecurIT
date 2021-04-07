@@ -45,15 +45,19 @@ int main( int argc, const char** argv )
     int camera_device = parser.get<int>("camera");
     VideoCapture capture;
     //-- 2. Read the video stream
-    capture.open( camera_device );
+    capture.open( 0 );
+    
     if ( ! capture.isOpened() )
     {
         cout << "--(!)Error opening video capture\n";
         return -1;
     }
     Mat frame;
+    //detectAndDisplay( frame, argc, argv );
+    //cout << capture.read(frame);
     while ( capture.read(frame) )
     {
+        //printf("in loop");
         if( frame.empty() )
         {
             cout << "--(!) No captured frame -- Break!\n";
@@ -61,6 +65,7 @@ int main( int argc, const char** argv )
         }
         //-- 3. Apply the classifier to the frame
         detectAndDisplay( frame, argc, argv );
+        printf("loop");
         
         if( waitKey(10) == 27 )
         {
@@ -73,6 +78,7 @@ int main( int argc, const char** argv )
 
 void detectAndDisplay( Mat frame, int argc, const char** argv)
 {
+    printf("in detect and display");
     using namespace std::this_thread; // sleep_for, sleep_until
     using namespace std::chrono; // nanoseconds, system_clock, seconds
     Mat frame_gray;
@@ -87,7 +93,7 @@ void detectAndDisplay( Mat frame, int argc, const char** argv)
                
         resize(frame_gray, frame1, Size(240,320));
         /* -------------------------- PATH TO CHANGE ------------------------------------------------------------ */
-        imwrite("/home/pi/SecurIT/database/unknown/latestImage.pgm", frame1);
+        imwrite("/home/pi/SecurITCamera/SecurIT/database/unknown/latestImage.pgm", frame1);
         predictions(argc, argv);
         
     }
@@ -108,7 +114,7 @@ void detectAndDisplay( Mat frame, int argc, const char** argv)
         }
     }
     //-- Show what you got
-    imshow( "Capture - Face detection", frame );    
+    //imshow( "Capture - Face detection", frame );    
   
        
 } 
