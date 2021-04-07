@@ -79,7 +79,7 @@ void predictions(int argc, const char *argv[]) {
     // Get the image that we want to predict
     // this is the image previously taken by the camera
     /* -------------------------- PATH TO CHANGE ------------------------------------------------------------ */
-    Mat testSample = imread("/home/pi/SecurIT/database/unknown/latestImage.pgm", IMREAD_GRAYSCALE);
+    Mat testSample = imread("/home/pi/SecurITCamera/SecurIT/database/unknown/latestImage.pgm", IMREAD_GRAYSCALE);
 
     // we need to reshape the image
     Mat grayscale = norm_0_255(testSample.reshape(1, height));

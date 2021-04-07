@@ -1,8 +1,10 @@
-#include "opencv2/objdetect.hpp"
+/*#include "opencv2/objdetect.hpp"
 #include "opencv2/highgui.hpp"
 #include "opencv2/imgproc.hpp"
 #include "opencv2/videoio.hpp"
 #include "opencv2/opencv.hpp"
+
+
 
 #include <iostream>
 #include <thread>
@@ -21,11 +23,11 @@ CascadeClassifier eyes_cascade;
 int main( int argc, const char** argv )
 {
     /* -------------------------- PATH TO CHANGE ------------------------------------------------------------ */
-    CommandLineParser parser(argc, argv,
+    /*CommandLineParser parser(argc, argv,
                              "{help h||}"
                              "{face_cascade|/home/pi/opencv/data/haarcascades/haarcascade_frontalface_alt.xml|Path to face cascade.}"
                              "{eyes_cascade|/home/pi/opencv/data/haarcascades/haarcascade_eye_tree_eyeglasses.xml|Path to eyes cascade.}"
-                             "{camera|0|Camera device number.}");
+                             );
     parser.about( "\nThis program demonstrates using the cv::CascadeClassifier class to detect objects (Face + eyes) in a video stream.\n"
                   "You can use Haar or LBP features.\n\n" );
     parser.printMessage();
@@ -42,22 +44,24 @@ int main( int argc, const char** argv )
         cout << "--(!)Error loading eyes cascade\n";
         return -1;
     };
-    int camera_device = parser.get<int>("camera");
-    VideoCapture capture;
+    VideoCapture camera(0);
+    // Allowable values: RASPICAM_FORMAT_GRAY,RASPICAM_FORMAT_RGB,RASPICAM_FORMAT_BGR,RASPICAM_FORMAT_YUV420
+    //camera.setFormat(raspicam::RASPICAM_FORMAT_RGB);
+    //camera.setCaptureSize(240,320);
+    //VideoCapture capture;
     //-- 2. Read the video stream
-    capture.open( 0 );
-    
-    if ( ! capture.isOpened() )
+    //capture.open( Camera );
+    if ( ! camera.isOpened() )
     {
         cout << "--(!)Error opening video capture\n";
         return -1;
     }
     Mat frame;
-    //detectAndDisplay( frame, argc, argv );
-    //cout << capture.read(frame);
-    while ( capture.read(frame) )
+    camera >> frame;
+    camera >> frame;
+    camera >> frame;
+    while ( camera.read(frame) )
     {
-        //printf("in loop");
         if( frame.empty() )
         {
             cout << "--(!) No captured frame -- Break!\n";
@@ -65,7 +69,6 @@ int main( int argc, const char** argv )
         }
         //-- 3. Apply the classifier to the frame
         detectAndDisplay( frame, argc, argv );
-        printf("loop");
         
         if( waitKey(10) == 27 )
         {
@@ -78,7 +81,6 @@ int main( int argc, const char** argv )
 
 void detectAndDisplay( Mat frame, int argc, const char** argv)
 {
-    printf("in detect and display");
     using namespace std::this_thread; // sleep_for, sleep_until
     using namespace std::chrono; // nanoseconds, system_clock, seconds
     Mat frame_gray;
@@ -93,7 +95,7 @@ void detectAndDisplay( Mat frame, int argc, const char** argv)
                
         resize(frame_gray, frame1, Size(240,320));
         /* -------------------------- PATH TO CHANGE ------------------------------------------------------------ */
-        imwrite("/home/pi/SecurITCamera/SecurIT/database/unknown/latestImage.pgm", frame1);
+       /* imwrite("/home/pi/SecurITCamera/SecurIT/database/unknown/latestImage.pgm", frame1);
         predictions(argc, argv);
         
     }
@@ -114,7 +116,7 @@ void detectAndDisplay( Mat frame, int argc, const char** argv)
         }
     }
     //-- Show what you got
-    //imshow( "Capture - Face detection", frame );    
+    imshow( "Capture - Face detection", frame );    
   
        
-} 
+} */
