@@ -41,7 +41,33 @@ static void read_csv(const string& filename, vector<Mat>& images, vector<int>& l
     }
 }
 
-void predictions(int argc, const char *argv[]) {
+static vector<Mat> resizeDataset(vector<Mat>& images, int argc, const char *argv[]) {
+    //String face_cascade_name = samples::findFile("/Users/emma/Documents/HEI/HEI4/ProjetS8/opencv-4.5.1/data/haarcascades/haarcascade_frontalface_alt.xml");
+    String face_cascade_name = samples::findFile( "/home/pi/opencv/data/haarcascades/haarcascade_frontalface_alt.xml");
+    CascadeClassifier face_cascade;
+    if( !face_cascade.load( face_cascade_name ) )
+    {
+        cout << "--(!)Error loading face cascade\n";
+    };
+    std::vector<Rect> faces;
+    vector<Mat> imagesVector;
+    for(int i = 0; i<images.size(); i++) {
+        //-- In each face, detect eyes
+        face_cascade.detectMultiScale( images[i], faces );
+        cv::Mat extract_raw(
+            images[i], // Frame to copy
+            cv::Range( faces[0].y, faces[0].y+faces[0].height ), // Range along Y axis
+            cv::Range( faces[0].x, faces[0].x+faces[0].width) // Range along X axis
+        );
+        resize(extract_raw, extract_raw, Size(240,320));
+        imagesVector.push_back(extract_raw);
+    }
+    return imagesVector;
+    
+
+}
+
+void predictions(Mat testSample, int argc, const char *argv[]) {
     // Check for valid command line arguments, print usage
     // if no arguments were given.
     if (argc < 2) {
@@ -61,6 +87,12 @@ void predictions(int argc, const char *argv[]) {
     // input filename is given.
     try {
         read_csv(fn_csv, images, labels);
+        images = resizeDataset(images, argc, argv);
+        /*for(int i = 0; i < images.size(); i++){
+            stringstream s;
+            s << i;
+            imshow(s.str(), images[i]);
+        }*/
     } catch (const cv::Exception& e) {
         cerr << "Error opening file \"" << fn_csv << "\". Reason: " << e.msg << endl;
         // nothing more we can do
@@ -79,7 +111,6 @@ void predictions(int argc, const char *argv[]) {
     // Get the image that we want to predict
     // this is the image previously taken by the camera
     /* -------------------------- PATH TO CHANGE ------------------------------------------------------------ */
-    Mat testSample = imread("/home/pi/SecurITCamera/SecurIT/database/unknown/latestImage.pgm", IMREAD_GRAYSCALE);
 
     // we need to reshape the image
     Mat grayscale = norm_0_255(testSample.reshape(1, height));
@@ -102,9 +133,9 @@ void predictions(int argc, const char *argv[]) {
     //
     string result_message = format("Confidence = %lf / Predicted class = %d .", confidence, predictedLabel);
     cout << result_message << endl;
-
+    /*
     // Here is how to get the eigenvalues of this Eigenfaces model:
-    /*Mat eigenvalues = model->getEigenValues();
+    Mat eigenvalues = model->getEigenValues();
     // And we can do the same to display the Eigenvectors (read Eigenfaces):
     Mat W = model->getEigenVectors();
     // Get the sample mean from the training data

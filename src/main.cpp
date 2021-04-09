@@ -30,16 +30,10 @@ int main( int argc, const char** argv )
                   "You can use Haar or LBP features.\n\n" );
     parser.printMessage();
     String face_cascade_name = samples::findFile( parser.get<String>("face_cascade") );
-    String eyes_cascade_name = samples::findFile( parser.get<String>("eyes_cascade") );
     //-- 1. Load the cascades
     if( !face_cascade.load( face_cascade_name ) )
     {
         cout << "--(!)Error loading face cascade\n";
-        return -1;
-    };
-    if( !eyes_cascade.load( eyes_cascade_name ) )
-    {
-        cout << "--(!)Error loading eyes cascade\n";
         return -1;
     };
     int camera_device = parser.get<int>("camera");
@@ -53,6 +47,7 @@ int main( int argc, const char** argv )
         return -1;
     }
     Mat frame;
+    //capture >> frame;
     //detectAndDisplay( frame, argc, argv );
     //cout << capture.read(frame);
     while ( capture.read(frame) )
@@ -89,14 +84,6 @@ void detectAndDisplay( Mat frame, int argc, const char** argv)
     std::vector<Rect> faces;
     face_cascade.detectMultiScale( frame_gray, faces );
     //-- If we dectect faces --> resize;gray;capture --> predict
-    if(faces.size() == 1) {
-               
-        resize(frame_gray, frame1, Size(240,320));
-        /* -------------------------- PATH TO CHANGE ------------------------------------------------------------ */
-        imwrite("/home/pi/SecurITCamera/SecurIT/database/unknown/latestImage.pgm", frame1);
-        predictions(argc, argv);
-        
-    }
 
     for ( size_t i = 0; i < faces.size(); i++ )
     {
@@ -104,17 +91,20 @@ void detectAndDisplay( Mat frame, int argc, const char** argv)
         ellipse( frame, center, Size( faces[i].width/2, faces[i].height/2 ), 0, 0, 360, Scalar( 255, 0, 255 ), 4 );
         Mat faceROI = frame_gray( faces[i] );
         //-- In each face, detect eyes
-        std::vector<Rect> eyes;
-        eyes_cascade.detectMultiScale( faceROI, eyes );
-        for ( size_t j = 0; j < eyes.size(); j++ )
-        {
-            Point eye_center( faces[i].x + eyes[j].x + eyes[j].width/2, faces[i].y + eyes[j].y + eyes[j].height/2 );
-            int radius = cvRound( (eyes[j].width + eyes[j].height)*0.25 );
-            circle( frame, eye_center, radius, Scalar( 255, 0, 0 ), 4 );
-        }
+        cv::Mat extract_raw(
+            frame_gray, // Frame to copy
+            cv::Range( faces[i].y, faces[i].y+faces[i].height ), // Range along Y axis
+            cv::Range( faces[i].x, faces[i].x+faces[i].width) // Range along X axis
+        );
+        resize(extract_raw, frame1, Size(240,320));
+        
+        /*stringstream s;
+        s << i;
+        imshow(s.str(), frame1);*/
+        predictions(frame1, argc, argv);
     }
     //-- Show what you got
-    //imshow( "Capture - Face detection", frame );    
-  
+    //imshow( "Capture - Face detection", frame ); 
+               
        
 } 
