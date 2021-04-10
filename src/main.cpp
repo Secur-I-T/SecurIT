@@ -82,10 +82,10 @@ int main( int argc, const char** argv )
         
         printf(" after detect and display ");
         
-        if( waitKey(10) == 27 )
+        /*if( waitKey(10) == 27 )
         {
             break; // escape
-        }
+        }*/
     }
     printf(" out of the loop ");
     return 0;
@@ -106,16 +106,17 @@ void detectAndDisplay( Mat frame, int argc, const char** argv)
     face_cascade.detectMultiScale( frame_gray, faces );
     //-- If we dectect faces --> resize;gray;capture --> predict
     cout << faces.size();
-    for ( size_t i = 0; i < faces.size(); i++ )
-    {
-        Point center( faces[i].x + faces[i].width/2, faces[i].y + faces[i].height/2 );
-        ellipse( frame, center, Size( faces[i].width/2, faces[i].height/2 ), 0, 0, 360, Scalar( 255, 0, 255 ), 4 );
-        Mat faceROI = frame_gray( faces[i] );
+    //for ( size_t i = 0; i < faces.size(); i++ )
+    //{
+    if(faces.size() == 1) {
+        Point center( faces[0].x + faces[0].width/2, faces[0].y + faces[0].height/2 );
+        ellipse( frame, center, Size( faces[0].width/2, faces[0].height/2 ), 0, 0, 360, Scalar( 255, 0, 255 ), 4 );
+        Mat faceROI = frame_gray( faces[0] );
         //-- In each face, detect eyes
         cv::Mat extract_raw(
             frame_gray, // Frame to copy
-            cv::Range( faces[i].y, faces[i].y+faces[i].height ), // Range along Y axis
-            cv::Range( faces[i].x, faces[i].x+faces[i].width) // Range along X axis
+            cv::Range( faces[0].y, faces[0].y+faces[0].height ), // Range along Y axis
+            cv::Range( faces[0].x, faces[0].x+faces[0].width) // Range along X axis
         );
         resize(extract_raw, frame1, Size(240,320));
         
@@ -125,8 +126,8 @@ void detectAndDisplay( Mat frame, int argc, const char** argv)
         imwrite("/home/pi/SecurITCamera/SecurIT/database/unknown/latestImage.pgm", frame1);
         printf(" Image written ");
         predictions(frame1, argc, argv);
-        
-    }
+    }  
+    //}
     printf(" Out of display and predict ");
     //-- Show what you got
     //imshow( "Capture - Face detection", frame ); 

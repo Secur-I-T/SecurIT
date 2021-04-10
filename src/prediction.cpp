@@ -120,7 +120,7 @@ void predictions(Mat testSample, int argc, const char *argv[]) {
     // if no arguments were given.
     
     Ptr<EigenFaceRecognizer> model = EigenFaceRecognizer::create();
-    model->read("/home/pi/SecurITCamera/SecurIT/database/model.xml");
+    model->read("/home/pi/SecurITCamera/SecurIT/database/model.xml"); 
 
     // Get the image that we want to predict
     // this is the image previously taken by the camera
@@ -148,6 +148,8 @@ void predictions(Mat testSample, int argc, const char *argv[]) {
     //
     string result_message = format("Confidence = %lf / Predicted class = %d .", confidence, predictedLabel);
     cout << result_message << endl;
+
+    
     /*
     // Here is how to get the eigenvalues of this Eigenfaces model:
     Mat eigenvalues = model->getEigenValues();
