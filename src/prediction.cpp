@@ -1,9 +1,14 @@
 
 #include "core.h"
 
+#include <opencv2/face.hpp>
+
 using namespace cv;
 using namespace cv::face;
 using namespace std;
+
+int trainedModel = 0;
+
 
 static Mat norm_0_255(InputArray _src) {
     Mat src = _src.getMat();
@@ -41,7 +46,7 @@ static void read_csv(const string& filename, vector<Mat>& images, vector<int>& l
     }
 }
 
-static vector<Mat> resizeDataset(vector<Mat>& images, int argc, const char *argv[]) {
+static vector<Mat> resizeDataset(vector<Mat>& images) {
     //String face_cascade_name = samples::findFile("/Users/emma/Documents/HEI/HEI4/ProjetS8/opencv-4.5.1/data/haarcascades/haarcascade_frontalface_alt.xml");
     String face_cascade_name = samples::findFile( "/home/pi/opencv/data/haarcascades/haarcascade_frontalface_alt.xml");
     CascadeClassifier face_cascade;
@@ -67,19 +72,9 @@ static vector<Mat> resizeDataset(vector<Mat>& images, int argc, const char *argv
 
 }
 
-void predictions(Mat testSample, int argc, const char *argv[]) {
-    // Check for valid command line arguments, print usage
-    // if no arguments were given.
-    if (argc < 2) {
-        cout << "usage: " << argv[0] << " <csv.ext> <output_folder> " << endl;
-        exit(1);
-    }
-    string output_folder = ".";
-    if (argc == 3) {
-        output_folder = string(argv[2]);
-    }
+void createModel() {
     // Get the path to your CSV.
-    string fn_csv = string(argv[1]);
+    string fn_csv = "../database/data.csv";
     // These vectors hold the images and corresponding labels.
     vector<Mat> images;
     vector<int> labels;
@@ -87,7 +82,7 @@ void predictions(Mat testSample, int argc, const char *argv[]) {
     // input filename is given.
     try {
         read_csv(fn_csv, images, labels);
-        images = resizeDataset(images, argc, argv);
+        images = resizeDataset(images);
         /*for(int i = 0; i < images.size(); i++){
             stringstream s;
             s << i;
@@ -108,20 +103,40 @@ void predictions(Mat testSample, int argc, const char *argv[]) {
     // size:
     int height = images[0].rows;
 
+    Ptr<EigenFaceRecognizer> model = EigenFaceRecognizer::create();
+    model->train(images, labels);
+
+    model->save("/home/pi/SecurITCamera/SecurIT/database/model.xml");
+
+}
+
+void predictions(Mat testSample, int argc, const char *argv[]) {
+    if(trainedModel == 0) {
+        createModel();
+        trainedModel++;
+    }
+    printf(" Value of trained model %d", trainedModel);
+    // Check for valid command line arguments, print usage
+    // if no arguments were given.
+    
+    Ptr<EigenFaceRecognizer> model = EigenFaceRecognizer::create();
+    model->read("/home/pi/SecurITCamera/SecurIT/database/model.xml");
+
     // Get the image that we want to predict
     // this is the image previously taken by the camera
     /* -------------------------- PATH TO CHANGE ------------------------------------------------------------ */
-
+    Mat testSample2 = imread("/home/pi/SecurITCamera/SecurIT/database/unknown/latestImage.pgm", IMREAD_GRAYSCALE);
     // we need to reshape the image
-    Mat grayscale = norm_0_255(testSample.reshape(1, height));
+    
+    /*!!!!!!!!!!!! change to testSample2-----------------------------------------------------*/
+    Mat grayscale = norm_0_255(testSample2.reshape(1, 320));
 
     // The following lines create an Eigenfaces model for
     // face recognition and train it with the images and
     // labels read from the given CSV file.
     // This here is a full PCA
 
-    Ptr<EigenFaceRecognizer> model = EigenFaceRecognizer::create();
-    model->train(images, labels);
+    
     // The following line predicts the label of a given
     // test image:
     int predictedLabel = model->predict(grayscale);

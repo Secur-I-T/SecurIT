@@ -7,6 +7,7 @@
 #include <iostream>
 #include <thread>
 #include <unistd.h>
+#include <time.h>
 
 #include "core.h"
 
@@ -20,6 +21,17 @@ CascadeClassifier eyes_cascade;
 
 int main( int argc, const char** argv )
 {
+    trainedModel = 0;
+    float temps;
+    clock_t t1, t2;
+ 
+    
+ 
+    // Ton programme
+     
+    
+    
+    
     /* -------------------------- PATH TO CHANGE ------------------------------------------------------------ */
     CommandLineParser parser(argc, argv,
                              "{help h||}"
@@ -50,30 +62,39 @@ int main( int argc, const char** argv )
     //capture >> frame;
     //detectAndDisplay( frame, argc, argv );
     //cout << capture.read(frame);
-    while ( capture.read(frame) )
+    while ( capture.isOpened() )
     {
+        capture >> frame;
         //printf("in loop");
         if( frame.empty() )
         {
             cout << "--(!) No captured frame -- Break!\n";
             break;
         }
+        
         //-- 3. Apply the classifier to the frame
+
+        t1 = clock();
         detectAndDisplay( frame, argc, argv );
-        printf("loop");
+        t2 = clock();
+        temps = (float)(t2-t1)/CLOCKS_PER_SEC;
+        printf("temps = %f\n", temps);
+        
+        printf(" after detect and display ");
         
         if( waitKey(10) == 27 )
         {
             break; // escape
         }
     }
+    printf(" out of the loop ");
     return 0;
     
 }
 
 void detectAndDisplay( Mat frame, int argc, const char** argv)
 {
-    printf("in detect and display");
+    printf(" in detect and display ");
     using namespace std::this_thread; // sleep_for, sleep_until
     using namespace std::chrono; // nanoseconds, system_clock, seconds
     Mat frame_gray;
@@ -84,7 +105,7 @@ void detectAndDisplay( Mat frame, int argc, const char** argv)
     std::vector<Rect> faces;
     face_cascade.detectMultiScale( frame_gray, faces );
     //-- If we dectect faces --> resize;gray;capture --> predict
-
+    cout << faces.size();
     for ( size_t i = 0; i < faces.size(); i++ )
     {
         Point center( faces[i].x + faces[i].width/2, faces[i].y + faces[i].height/2 );
@@ -101,8 +122,12 @@ void detectAndDisplay( Mat frame, int argc, const char** argv)
         /*stringstream s;
         s << i;
         imshow(s.str(), frame1);*/
+        imwrite("/home/pi/SecurITCamera/SecurIT/database/unknown/latestImage.pgm", frame1);
+        printf(" Image written ");
         predictions(frame1, argc, argv);
+        
     }
+    printf(" Out of display and predict ");
     //-- Show what you got
     //imshow( "Capture - Face detection", frame ); 
                
